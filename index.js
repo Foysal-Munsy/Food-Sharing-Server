@@ -60,7 +60,14 @@ async function run() {
   try {
     await client.connect();
     const db = client.db("db_name");
-    const events = db.collection("collection");
+    const foodCollection = db.collection("food");
+    // projects works from here
+    app.post("/add-food", async (req, res) => {
+      const data = req.body;
+      const result = await foodCollection.insertOne(data);
+      res.send(result);
+    });
+    console.log("DB connected!");
   } finally {
   }
 }
