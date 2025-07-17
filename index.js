@@ -10,13 +10,13 @@ const {
 const dotenv = require("dotenv");
 dotenv.config();
 
-// var admin = require("firebase-admin");
+const admin = require("firebase-admin");
 
-// var serviceAccount = require("./admin-key.json");
+const serviceAccount = require("./admin-key.json");
 
-// admin.initializeApp({
-//   credential: admin.credential.cert(serviceAccount),
-// });
+admin.initializeApp({
+  credential: admin.credential.cert(serviceAccount),
+});
 
 const app = express();
 const PORT = process.env.PORT || 5001;
@@ -36,25 +36,25 @@ const client = new MongoClient(process.env.MONGODB_URI, {
 
 // middleware/auth.js
 
-// const verifyFirebaseToken = async (req, res, next) => {
-//   const authHeader = req.headers.authorization;
+const verifyFirebaseToken = async (req, res, next) => {
+  const authHeader = req.headers.authorization;
 
-//   if (!authHeader || !authHeader.startsWith("Bearer ")) {
-//     return res.status(401).json({ message: "Unauthorized: No token provided" });
-//   }
+  if (!authHeader || !authHeader.startsWith("Bearer ")) {
+    return res.status(401).json({ message: "Unauthorized: No token provided" });
+  }
 
-//   const idToken = authHeader.split(" ")[1];
+  const idToken = authHeader.split(" ")[1];
 
-//   try {
-//     const decodedToken = await admin.auth().verifyIdToken(idToken);
-//     req.firebaseUser = decodedToken; // You can access user info like uid, email, etc.
-//     next();
-//   } catch (error) {
-//     return res
-//       .status(401)
-//       .json({ message: "Unauthorized: Invalid token from catch" });
-//   }
-// };
+  try {
+    const decodedToken = await admin.auth().verifyIdToken(idToken);
+    req.firebaseUser = decodedToken; // You can access user info like uid, email, etc.
+    next();
+  } catch (error) {
+    return res
+      .status(401)
+      .json({ message: "Unauthorized: Invalid token from catch" });
+  }
+};
 
 async function run() {
   try {
@@ -69,14 +69,14 @@ run().catch(console.dir);
 
 // Root route
 
-// app.get("/", verifyFirebaseToken, async (req, res) => {
-//   console.log(req.firebaseUser);
+app.get("/", verifyFirebaseToken, async (req, res) => {
+  console.log(req.firebaseUser);
 
-//   res.send("Server is running!");
-// });
-app.get("/", (req, res) => {
   res.send("Server is running!");
 });
+// app.get("/", async (req, res) => {
+//   res.send("Server is running!");
+// });
 app.listen(PORT, () => {
   console.log(`Server is listening on port ${PORT}`);
 });
