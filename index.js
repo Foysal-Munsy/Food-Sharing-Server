@@ -59,8 +59,8 @@ const verifyFirebaseToken = async (req, res, next) => {
 async function run() {
   try {
     await client.connect();
-    //  Food_Sharing_DB
-    const db = client.db(" Food_Sharing_DB");
+
+    const db = client.db("Food_Sharing_DB");
     const foodCollection = db.collection("foods");
     // projects works from here
     app.post("/add-food", async (req, res) => {
@@ -82,6 +82,13 @@ async function run() {
         .toArray();
       res.send(data);
     });
+
+    app.get("/my-foods", verifyFirebaseToken, async (req, res) => {
+      const query = { donorEmail: req.firebaseUser.email };
+      const data = await foodCollection.find(query).toArray();
+      res.send(data);
+    });
+
     app.get("/details/:id", async (req, res) => {
       const query = { _id: new ObjectId(req.params.id) };
       const data = await foodCollection.findOne(query);
