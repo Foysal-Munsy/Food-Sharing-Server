@@ -84,7 +84,7 @@ async function run() {
     });
 
     app.get("/my-foods", verifyFirebaseToken, async (req, res) => {
-      const query = { donorEmail: req.firebaseUser.email };
+      const query = { donorEmail: req.firebaseUser.email, status: "available" };
       const data = await foodCollection.find(query).toArray();
       res.send(data);
     });
@@ -97,6 +97,12 @@ async function run() {
           requestedBy: req.firebaseUser.email,
         },
       });
+      res.send(data);
+    });
+
+    app.get("/requested-foods", verifyFirebaseToken, async (req, res) => {
+      const query = { donorEmail: req.firebaseUser.email, status: "requested" };
+      const data = await foodCollection.find(query).toArray();
       res.send(data);
     });
 
