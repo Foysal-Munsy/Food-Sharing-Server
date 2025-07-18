@@ -72,6 +72,12 @@ async function run() {
       const data = await foodCollection.find({ status: "available" }).toArray();
       res.send(data);
     });
+
+    app.get("/details/:id", async (req, res) => {
+      const query = { _id: new ObjectId(req.params.id) };
+      const data = await foodCollection.findOne(query);
+      res.send(data);
+    });
     console.log("DB connected!");
   } finally {
   }
