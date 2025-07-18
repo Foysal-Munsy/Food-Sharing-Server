@@ -67,6 +67,11 @@ async function run() {
       const result = await foodCollection.insertOne(data);
       res.send(result);
     });
+
+    app.get("/available-foods", async (req, res) => {
+      const data = await foodCollection.find({ status: "available" }).toArray();
+      res.send(data);
+    });
     console.log("DB connected!");
   } finally {
   }
