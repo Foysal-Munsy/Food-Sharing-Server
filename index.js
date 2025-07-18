@@ -95,6 +95,7 @@ async function run() {
         $set: {
           status: "requested",
           requestedBy: req.firebaseUser.email,
+          requestedAt: new Date(),
         },
       });
       res.send(data);
