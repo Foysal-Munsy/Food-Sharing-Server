@@ -59,8 +59,9 @@ const verifyFirebaseToken = async (req, res, next) => {
 async function run() {
   try {
     await client.connect();
-    const db = client.db("db_name");
-    const foodCollection = db.collection("food");
+    //  Food_Sharing_DB
+    const db = client.db(" Food_Sharing_DB");
+    const foodCollection = db.collection("foods");
     // projects works from here
     app.post("/add-food", async (req, res) => {
       const data = req.body;
