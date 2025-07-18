@@ -111,6 +111,24 @@ async function run() {
       const data = await foodCollection.findOne(query);
       res.send(data);
     });
+
+    // UPDATE
+    app.get("/update/:id", async (req, res) => {
+      const query = { _id: new ObjectId(req.params.id) };
+      const data = await foodCollection.findOne(query);
+      res.send(data);
+    });
+    app.put("/update/:id", async (req, res) => {
+      const { id } = req.params;
+      const updatedFood = req.body;
+
+      const filter = { _id: new ObjectId(id) };
+      const updateDoc = { $set: updatedFood };
+
+      const result = await foodCollection.updateOne(filter, updateDoc);
+      res.send(result);
+    });
+
     console.log("DB connected!");
   } finally {
   }
