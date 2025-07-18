@@ -89,6 +89,17 @@ async function run() {
       res.send(data);
     });
 
+    app.patch("/request/:id", verifyFirebaseToken, async (req, res) => {
+      const query = { _id: new ObjectId(req.params.id) };
+      const data = await foodCollection.updateOne(query, {
+        $set: {
+          status: "requested",
+          requestedBy: req.firebaseUser.email,
+        },
+      });
+      res.send(data);
+    });
+
     app.get("/details/:id", async (req, res) => {
       const query = { _id: new ObjectId(req.params.id) };
       const data = await foodCollection.findOne(query);
