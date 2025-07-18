@@ -76,7 +76,8 @@ async function run() {
     app.get("/featured-foods", async (req, res) => {
       const data = await foodCollection
         .find({ status: "available" })
-        .limit(3)
+        .sort({ quantity: -1 })
+        .limit(6)
         .toArray();
       res.send(data);
     });
