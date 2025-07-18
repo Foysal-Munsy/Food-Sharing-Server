@@ -73,6 +73,13 @@ async function run() {
       res.send(data);
     });
 
+    app.get("/featured-foods", async (req, res) => {
+      const data = await foodCollection
+        .find({ status: "available" })
+        .limit(3)
+        .toArray();
+      res.send(data);
+    });
     app.get("/details/:id", async (req, res) => {
       const query = { _id: new ObjectId(req.params.id) };
       const data = await foodCollection.findOne(query);
