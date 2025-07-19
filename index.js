@@ -102,7 +102,12 @@ async function run() {
     });
 
     app.get("/requested-foods", verifyFirebaseToken, async (req, res) => {
-      const query = { donorEmail: req.firebaseUser.email, status: "requested" };
+      console.log("Requested by:", req.firebaseUser.email);
+      const query = {
+        requestedBy: req.firebaseUser.email,
+        status: "requested",
+      };
+      console.log("Query:", query);
       const data = await foodCollection.find(query).toArray();
       res.send(data);
     });
