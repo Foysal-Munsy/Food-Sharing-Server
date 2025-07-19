@@ -1,23 +1,19 @@
-Here’s a simple and clean `README.md` file based on your `package.json` and setup for the **Uddyog Server**:
-
----
-
-```markdown
-# 🥗 Uddyog Server
+# 🥗 Food Sharing Server
 
 A Node.js backend server for a food-sharing application, using Express, MongoDB, Firebase Admin, and JWT for secure authentication and data access.
 
 ## 📦 Project Structure
+
 ```
 
-uddyog-server/
+Food-Sharing-server/
 ├── index.js
 ├── admin-key.json
 ├── .env
 ├── package.json
 └── README.md
 
-````
+```
 
 ## 🚀 Features
 
@@ -78,4 +74,7 @@ This will run the server using `nodemon` and listen on the specified `PORT`.
 ## 🧑‍💻 Author
 
 This project is developed and maintained by **\[Foysal Munsy]**.
-````
+
+```
+
+```
