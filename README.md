@@ -74,7 +74,3 @@ This will run the server using `nodemon` and listen on the specified `PORT`.
 ## 🧑‍💻 Author
 
 This project is developed and maintained by **\[Foysal Munsy]**.
-
-```
-
-```

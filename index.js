@@ -1,3 +1,5 @@
+const dotenv = require("dotenv");
+dotenv.config();
 const express = require("express");
 const cors = require("cors");
 
@@ -7,8 +9,6 @@ const {
   ObjectId,
   ChangeStream,
 } = require("mongodb");
-const dotenv = require("dotenv");
-dotenv.config();
 
 const admin = require("firebase-admin");
 
@@ -58,8 +58,6 @@ const verifyFirebaseToken = async (req, res, next) => {
 
 async function run() {
   try {
-    await client.connect();
-
     const db = client.db("Food_Sharing_DB");
     const foodCollection = db.collection("foods");
     // projects works from here
@@ -69,9 +67,42 @@ async function run() {
       res.send(result);
     });
 
+    // app.get("/available-foods", async (req, res) => {
+    //   const page = parseInt(req.query.page);
+    //   const size = parseInt(req.query.size);
+    //   console.log("pagination", req.query);
+    //   const data = await foodCollection.find({ status: "available" }).toArray();
+    //   const pagination = await foodCollection
+    //     .find({ status: "available" })
+    //     .skip((page - 1) * size)
+    //     .limit(size)
+    //     .toArray();
+    //   res.send(data, pagination);
+    // });
+
     app.get("/available-foods", async (req, res) => {
-      const data = await foodCollection.find({ status: "available" }).toArray();
-      res.send(data);
+      const page = parseInt(req.query.page) || 1;
+      const size = parseInt(req.query.size) || 2;
+
+      console.log("pagination", req.query);
+
+      // Get total count
+      const total = await foodCollection.countDocuments({
+        status: "available",
+      });
+
+      // Get paginated results
+      const foods = await foodCollection
+        .find({ status: "available" })
+        .skip((page - 1) * size)
+        .limit(size)
+        .toArray();
+
+      // Send both total count and paginated data
+      res.json({
+        total,
+        foods,
+      });
     });
 
     app.get("/featured-foods", async (req, res) => {
