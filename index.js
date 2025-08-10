@@ -82,7 +82,7 @@ async function run() {
 
     app.get("/available-foods", async (req, res) => {
       const page = parseInt(req.query.page) || 1;
-      const size = parseInt(req.query.size) || 2;
+      const size = parseInt(req.query.size) || 3;
 
       console.log("pagination", req.query);
 
